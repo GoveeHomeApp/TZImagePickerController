@@ -23,6 +23,7 @@ Pod::Spec.new do |s|
 
   #- 推荐这种 -#
   # s.resource_bundles = { 'TZImagePickerController' => ['TZImagePickerController/*.xcassets'] }
+  s.resource_bundles = { 'TZImagePickerController' => ['TZImagePickerController/Assets/**/*.{xcassets,json,strings,plist,apng,png,bundle}'] }
 
   # s.resources  = 'TZImagePickerController/**/*.{storyboard,xib}', 'TZImagePickerController/Assets/*'
   # s.resources = 'Resources/*.png'
