@@ -344,13 +344,13 @@
                     if (imageSize < 20 * 1024 * 1024) {
                         [self finishedPickPicture:_tzImagePickerVc model:model selectedButton:selectButton refreshCount:refreshCount];
                     }else{
-                        [_tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"文件大小不能超过20M"]];
+                        [_tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"FileLimited20MTips"]];
                     }
                 }];
                 
                 
             }else if (model.type == TZAssetModelMediaTypePhotoGif && !_tzImagePickerVc.allowPickingGif){
-                [_tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"请上传格式为JPGE或PNG的图片"]];
+                [_tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"ImageFormatPNGErrorTips"]];
                 
                 
             }else{

@@ -685,13 +685,13 @@ static CGFloat itemMargin = 5;
                         if (imageSize < 20 * 1024 * 1024) {
                             [strongSelf finishedPickPicture:tzImagePickerVc cell:strongCell layer:strongLayer model:model];
                         }else{
-                            [tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"文件大小不能超过20M"]];
+                            [tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"FileLimited20MTips"]];
                         }
                     }];
                     
                     
                 }else if (model.type == TZAssetModelMediaTypePhotoGif && !tzImagePickerVc.allowPickingGif){
-                    [tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"请上传格式为JPGE或PNG的图片"]];
+                    [tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"ImageFormatPNGErrorTips"]];
                     
                     
                 }else{
