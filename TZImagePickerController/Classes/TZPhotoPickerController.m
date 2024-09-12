@@ -680,27 +680,24 @@ static CGFloat itemMargin = 5;
                         return;
                     }
                 }
-                if (!tzImagePickerVc.allowPreview) {
-                    BOOL shouldDone = tzImagePickerVc.maxImagesCount == 1;
-                    if (!tzImagePickerVc.allowPickingMultipleVideo && (model.type == TZAssetModelMediaTypeVideo || model.type == TZAssetModelMediaTypePhotoGif)) {
-                        shouldDone = YES;
-                    }
-                    if (shouldDone) {
-                        model.isSelected = YES;
-                        [tzImagePickerVc addSelectedModel:model];
-                        [strongSelf doneButtonClick];
-                        return;
-                    }
+                if (model.type == TZAssetModelMediaTypePhoto) {
+                    [strongSelf getImageSizeFromPHAsset:model.asset completion:^(NSInteger imageSize) {
+                        if (imageSize < 20 * 1024 * 1024) {
+                            [strongSelf finishedPickPicture:tzImagePickerVc cell:strongCell layer:strongLayer model:model];
+                        }else{
+                            [tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"文件大小不能超过20M"]];
+                        }
+                    }];
+                    
+                    
+                }else if (model.type == TZAssetModelMediaTypePhotoGif && !tzImagePickerVc.allowPickingGif){
+                    [tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"请上传格式为JPGE或PNG的图片"]];
+                    
+                    
+                }else{
+                    [strongSelf finishedPickPicture:tzImagePickerVc cell:strongCell layer:strongLayer model:model];
                 }
-                strongCell.selectPhotoButton.selected = YES;
-                model.isSelected = YES;
-                [tzImagePickerVc addSelectedModel:model];
-                if (tzImagePickerVc.showSelectedIndex || tzImagePickerVc.showPhotoCannotSelectLayer) {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"TZ_PHOTO_PICKER_RELOAD_NOTIFICATION" object:strongSelf.navigationController];
-                }
-                [strongSelf setAsset:model.asset isSelect:YES];
-                [strongSelf refreshBottomToolBarStatus];
-                [UIView showOscillatoryAnimationWithLayer:strongLayer type:TZOscillatoryAnimationToSmaller];
+           
             } else {
                 NSString *title = [NSString stringWithFormat:[NSBundle tz_localizedStringForKey:@"Select a maximum of %zd photos"], tzImagePickerVc.maxImagesCount];
                 [tzImagePickerVc showAlertWithTitle:title];
@@ -709,6 +706,54 @@ static CGFloat itemMargin = 5;
     };
     return cell;
 }
+
+- (void)getImageSizeFromPHAsset:(PHAsset *)asset completion:(void (^)(NSInteger imageSize))completion {
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.synchronous = YES;  // 同步请求
+
+    [[PHImageManager defaultManager] requestImageDataAndOrientationForAsset:asset
+                                                                    options:options
+                                                              resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, CGImagePropertyOrientation orientation, NSDictionary * _Nullable info) {
+        if (imageData) {
+            NSInteger imageSize = [imageData length];  // 图片大小，单位为字节
+            if (completion) {
+                completion(imageSize);
+            }
+        } else {
+            if (completion) {
+                completion(0);  // 如果获取失败，返回 0
+            }
+        }
+    }];
+}
+
+
+- (void)finishedPickPicture:(TZImagePickerController*)tzImagePickerVc cell:(TZAssetCell*)cell layer:(CALayer*)layer model:(TZAssetModel*)model{
+    if (!tzImagePickerVc.allowPreview) {
+        BOOL shouldDone = tzImagePickerVc.maxImagesCount == 1;
+        if (!tzImagePickerVc.allowPickingMultipleVideo && (model.type == TZAssetModelMediaTypeVideo || model.type == TZAssetModelMediaTypePhotoGif)) {
+            shouldDone = YES;
+        }
+        if (shouldDone) {
+            model.isSelected = YES;
+            [tzImagePickerVc addSelectedModel:model];
+            [self doneButtonClick];
+            return;
+        }
+    }
+    cell.selectPhotoButton.selected = YES;
+    model.isSelected = YES;
+    [tzImagePickerVc addSelectedModel:model];
+    if (tzImagePickerVc.showSelectedIndex || tzImagePickerVc.showPhotoCannotSelectLayer) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TZ_PHOTO_PICKER_RELOAD_NOTIFICATION" object:self.navigationController];
+    }
+    [self setAsset:model.asset isSelect:YES];
+    [self refreshBottomToolBarStatus];
+    [UIView showOscillatoryAnimationWithLayer:layer type:TZOscillatoryAnimationToSmaller];
+}
+
+
+
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     // take a photo / 去拍照

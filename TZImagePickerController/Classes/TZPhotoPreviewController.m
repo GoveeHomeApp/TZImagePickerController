@@ -338,15 +338,26 @@
             if ([[TZImageManager manager] isAssetCannotBeSelected:model.asset]) {
                 return;
             }
-            [_tzImagePickerVc addSelectedModel:model];
-            [self setAsset:model.asset isSelect:YES];
-            if (self.photos) {
-                [_tzImagePickerVc.selectedAssets addObject:_assetsTemp[self.currentIndex]];
-                [self.photos addObject:_photosTemp[self.currentIndex]];
+            
+            if (model.type == TZAssetModelMediaTypePhoto) {
+                [self getImageSizeFromPHAsset:model.asset completion:^(NSInteger imageSize) {
+                    if (imageSize < 20 * 1024 * 1024) {
+                        [self finishedPickPicture:_tzImagePickerVc model:model selectedButton:selectButton refreshCount:refreshCount];
+                    }else{
+                        [_tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"文件大小不能超过20M"]];
+                    }
+                }];
+                
+                
+            }else if (model.type == TZAssetModelMediaTypePhotoGif && !_tzImagePickerVc.allowPickingGif){
+                [_tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"请上传格式为JPGE或PNG的图片"]];
+                
+                
+            }else{
+                [self finishedPickPicture:_tzImagePickerVc model:model selectedButton:selectButton refreshCount:refreshCount];
             }
-            if (model.type == TZAssetModelMediaTypeVideo && !_tzImagePickerVc.allowPickingMultipleVideo) {
-                [_tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"Select the video when in multi state, we will handle the video as a photo"]];
-            }
+            return;
+       
         }
     } else {
         NSArray *selectedModels = [NSArray arrayWithArray:_tzImagePickerVc.selectedModels];
@@ -389,6 +400,53 @@
     }
     [UIView showOscillatoryAnimationWithLayer:_numberImageView.layer type:TZOscillatoryAnimationToSmaller];
 }
+
+
+- (void)getImageSizeFromPHAsset:(PHAsset *)asset completion:(void (^)(NSInteger imageSize))completion {
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.synchronous = YES;  // 同步请求
+
+    [[PHImageManager defaultManager] requestImageDataAndOrientationForAsset:asset
+                                                                    options:options
+                                                              resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, CGImagePropertyOrientation orientation, NSDictionary * _Nullable info) {
+        if (imageData) {
+            NSInteger imageSize = [imageData length];  // 图片大小，单位为字节
+            if (completion) {
+                completion(imageSize);
+            }
+        } else {
+            if (completion) {
+                completion(0);  // 如果获取失败，返回 0
+            }
+        }
+    }];
+}
+
+
+- (void)finishedPickPicture:(TZImagePickerController*)tzImagePickerVc model:(TZAssetModel*)model selectedButton:(UIButton*)selectButton refreshCount:(BOOL)refreshCount{
+    
+    [tzImagePickerVc addSelectedModel:model];
+    [self setAsset:model.asset isSelect:YES];
+    if (self.photos) {
+        [tzImagePickerVc.selectedAssets addObject:_assetsTemp[self.currentIndex]];
+        [self.photos addObject:_photosTemp[self.currentIndex]];
+    }
+    if (model.type == TZAssetModelMediaTypeVideo && !tzImagePickerVc.allowPickingMultipleVideo) {
+        [tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"Select the video when in multi state, we will handle the video as a photo"]];
+    }
+    
+    
+    model.isSelected = !selectButton.selected;
+    if (refreshCount) {
+        [self refreshNaviBarAndBottomBarState];
+    }
+    if (model.isSelected) {
+        [UIView showOscillatoryAnimationWithLayer:selectButton.imageView.layer type:TZOscillatoryAnimationToBigger];
+    }
+    [UIView showOscillatoryAnimationWithLayer:_numberImageView.layer type:TZOscillatoryAnimationToSmaller];
+}
+
+
 
 - (void)backButtonClick {
     if (self.navigationController.childViewControllers.count < 2) {
