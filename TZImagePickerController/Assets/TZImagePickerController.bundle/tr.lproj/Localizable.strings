@@ -26,6 +26,6 @@
 "Allow %@ to access your all photos" = "%@'nın tüm fotoğraflarınıza erişmesine izin verin";
 "Add more accessible photos" = "Daha fazla erişilebilir fotoğraf ekleyin";
 "VideoTooShort" = "Video çok kısa, lütfen videonun 5 saniyeden uzun olduğundan emin olun";
-"AllowVideoMaximumDuration" = "En fazla 1 dakikalık video yüklemeleri desteklenir";
-"FileLimited20MTips" = "Dosya boyutu 20 MB'yi geçemez";
-"ImageFormatPNGErrorTips" = "Lütfen JPGE veya PNG formatında bir resim yükleyin";
+"AllowVideoMaximumDuration" = "Video 1 dakikadan kısa olmalıdır.";
+"FileLimited20MTips" = "Dosya boyutu 20 MB'ı geçmemelidir.";
+"ImageFormatPNGErrorTips" = "Lütfen görselleri JPEG veya PNG formatında yükleyin.";

@@ -26,6 +26,6 @@
 "Allow %@ to access your all photos" = "Allow %@ to access your all photos";
 "Add more accessible photos" = "Add more accessible photos";
 "VideoTooShort" = "Video too short, please ensure the video is longer than 5 seconds";
-"AllowVideoMaximumDuration" = "Only support video uploads with a maximum duration of 1 minute";
-"FileLimited20MTips" = "File size cannot exceed 20MB";
+"AllowVideoMaximumDuration" = "The video must be shorter than 1 minute.";
+"FileLimited20MTips" = "File size must not exceed 20M.";
 "ImageFormatPNGErrorTips" = "Please upload an image in JPGE or PNG format";

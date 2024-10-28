@@ -26,6 +26,6 @@
 "Allow %@ to access your all photos" = "你已設定%@只能訪問相冊部分照片，建議允許訪問「所有照片」";
 "Add more accessible photos" = "添加更多\n可訪問照片";
 "VideoTooShort" = "視頻太短，請確保視頻時長超過5秒";
-"AllowVideoMaximumDuration" = "僅支持時長不超過1分鐘的視頻上傳";
-"FileLimited20MTips" = "文件大小不能超過20M";
+"AllowVideoMaximumDuration" = "僅支援上傳時長不超過 1 分鐘的影片";
+"FileLimited20MTips" = "檔案大小不能超過 20M";
 "ImageFormatPNGErrorTips" = "請上傳格式為JPGE或PNG的圖片";

@@ -26,6 +26,6 @@
 "Allow %@ to access your all photos" = "Consenti a %@ di accedere a tutte le tue foto";
 "Add more accessible photos" = "Aggiungi più foto accessibili";
 "VideoTooShort" = "Video troppo corto, assicurati che il video duri più di 5 secondi";
-"AllowVideoMaximumDuration" = "Sono supportati solo i video con una durata massima di 1 minuto";
-"FileLimited20MTips" = "Il peso del file non può superare i 20 MB";
-"ImageFormatPNGErrorTips" = "Carica un'immagine nel formato JPGE o PNG";
+"AllowVideoMaximumDuration" = "La lunghezza del video deve essere inferiore a un minuto.";
+"FileLimited20MTips" = "La dimensione del file non deve superare i 20 M.";
+"ImageFormatPNGErrorTips" = "Carica le immagini in formato JPGE o PNG.";

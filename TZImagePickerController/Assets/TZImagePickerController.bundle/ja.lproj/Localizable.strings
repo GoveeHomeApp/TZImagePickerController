@@ -26,6 +26,6 @@
 "Allow %@ to access your all photos" = "%@がすべての写真にアクセスすることを許可してください";
 "Add more accessible photos" = "さらにアクセス可能な写真を追加";
 "VideoTooShort" = "動画が短すぎます。5秒以上の動画を選択してください";
-"AllowVideoMaximumDuration" = "1分以内のビデオのみアップロード可能です";
-"FileLimited20MTips" = "ファイルサイズは20MBを超えてはいけません";
-"ImageFormatPNGErrorTips" = "JPGEまたはPNG形式の画像をアップロードしてください";
+"AllowVideoMaximumDuration" = "長さが1分以下の動画のアップロードのみに対応";
+"FileLimited20MTips" = "ファイルサイズは 20M を超えないでください。";
+"ImageFormatPNGErrorTips" = "画像は JPGE または PNG 形式でアップロードしてください。";
