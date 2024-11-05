@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = 'TZImagePickerController'
-  s.version      = '0.1.0'
+  s.version      = '0.0.0'
   s.summary      = 'TZImagePickerController.'
 
   s.homepage     = 'git@github.com:GoveeHomeApp/TZImagePickerController.git'
