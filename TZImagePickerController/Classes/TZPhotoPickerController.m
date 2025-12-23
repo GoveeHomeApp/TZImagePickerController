@@ -501,12 +501,12 @@ static CGFloat itemMargin = 5;
                 
                 for (id item in photos) {
                     if ([item isKindOfClass:[NSNumber class]]) {
-                        if (tzImagePickerVc.minImagesCount == 1) { // 只允许选一个时候 直接清空 允许下一个选择
+                        if (tzImagePickerVc.minImagesCount == 1) { // 只允许选一个时候 直接清空 允许下一个选择 并且回调异常
                             [tzImagePickerVc.selectedModels removeAllObjects];
-                        }
-                        // 定制化异常回调
-                        if (tzImagePickerVc.fetchImgErrorHandler) {
-                            tzImagePickerVc.fetchImgErrorHandler(weakSelf);
+                            // 定制化异常回调
+                            if (tzImagePickerVc.fetchImgErrorHandler) {
+                                tzImagePickerVc.fetchImgErrorHandler(weakSelf);
+                            }
                         }
                         return;
                     }
