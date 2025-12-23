@@ -485,6 +485,7 @@ static CGFloat itemMargin = 5;
         __block BOOL havenotShowAlert = YES;
         [TZImageManager manager].shouldFixOrientation = YES;
         __block UIAlertController *alertView;
+        __weak typeof(self) weakSelf = self;
         for (NSInteger i = 0; i < tzImagePickerVc.selectedModels.count; i++) {
             TZAssetModel *model = tzImagePickerVc.selectedModels[i];
             TZImageRequestOperation *operation = [[TZImageRequestOperation alloc] initWithAsset:model.asset completion:^(UIImage * _Nonnull photo, NSDictionary * _Nonnull info, BOOL isDegraded) {
@@ -498,7 +499,18 @@ static CGFloat itemMargin = 5;
                 if (info)  [infoArr replaceObjectAtIndex:i withObject:info];
                 [assets replaceObjectAtIndex:i withObject:model.asset];
                 
-                for (id item in photos) { if ([item isKindOfClass:[NSNumber class]]) return; }
+                for (id item in photos) {
+                    if ([item isKindOfClass:[NSNumber class]]) {
+                        if (tzImagePickerVc.minImagesCount == 1) { // 只允许选一个时候 直接清空 允许下一个选择
+                            [tzImagePickerVc.selectedModels removeAllObjects];
+                        }
+                        // 定制化异常回调
+                        if (tzImagePickerVc.fetchImgErrorHandler) {
+                            tzImagePickerVc.fetchImgErrorHandler(weakSelf);
+                        }
+                        return;
+                    }
+                }
                 
                 if (havenotShowAlert && alertView) {
                     [alertView dismissViewControllerAnimated:YES completion:^{

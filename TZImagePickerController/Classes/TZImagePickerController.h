@@ -135,6 +135,8 @@
 @property (assign, nonatomic) NSTimeInterval allowVideoMaximumDuration;
 /// Customizing UIImagePickerController's other properties, such as videoQuality / 定制UIImagePickerController的其它属性，比如视频拍摄质量videoQuality
 @property (nonatomic, copy) void(^uiImagePickerControllerSettingBlock)(UIImagePickerController *imagePickerController);
+/// 补充一个获取图片异常的回调
+@property (nonatomic, copy) void(^fetchImgErrorHandler)(UIViewController *picker);
 
 /// 首选语言，如果设置了就用该语言，不设则取当前系统语言。
 /// 支持zh-Hans、zh-Hant、en、vi等值，详见TZImagePickerController.bundle内的语言资源
