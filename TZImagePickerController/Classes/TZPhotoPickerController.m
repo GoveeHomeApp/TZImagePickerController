@@ -507,6 +507,8 @@ static CGFloat itemMargin = 5;
                             if (tzImagePickerVc.fetchImgErrorHandler) {
                                 tzImagePickerVc.fetchImgErrorHandler(weakSelf);
                             }
+                            // 移除Loading
+                            [tzImagePickerVc hideProgressHUD];
                         }
                         return;
                     }
