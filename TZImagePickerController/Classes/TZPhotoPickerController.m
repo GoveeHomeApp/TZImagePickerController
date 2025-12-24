@@ -524,14 +524,14 @@ static CGFloat itemMargin = 5;
                 }
             } progressHandler:^(double progress, NSError * _Nonnull error, BOOL * _Nonnull stop, NSDictionary * _Nonnull info) {
                 // 如果图片正在从iCloud同步中,提醒用户
-                if (progress < 1 && havenotShowAlert && !alertView) {
-                    alertView = [tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"Synchronizing photos from iCloud"]];
-                    havenotShowAlert = NO;
-                    return;
-                }
-                if (progress >= 1) {
-                    havenotShowAlert = YES;
-                }
+//                if (progress < 1 && havenotShowAlert && !alertView) {
+//                    alertView = [tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"Synchronizing photos from iCloud"]];
+//                    havenotShowAlert = NO;
+//                    return;
+//                }
+//                if (progress >= 1) {
+//                    havenotShowAlert = YES;
+//                }
             }];
             [self.operationQueue addOperation:operation];
         }
